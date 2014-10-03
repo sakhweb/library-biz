@@ -1,0 +1,43 @@
+<?php
+/* @var $this BookController */
+/* @var $model Book */
+
+$this->breadcrumbs=array(
+	'Books'=>array('index'),
+	$model->name,
+);
+
+$this->menu=array(
+	array('label'=>'List Book', 'url'=>array('index')),
+	array('label'=>'Create Book', 'url'=>array('create')),
+	array('label'=>'Update Book', 'url'=>array('update', 'id'=>$model->id)),
+	array('label'=>'Delete Book', 'url'=>'#', 'linkOptions'=>array('submit'=>array('delete','id'=>$model->id),'confirm'=>'Are you sure you want to delete this item?')),
+	array('label'=>'Manage Book', 'url'=>array('admin')),
+);
+?>
+
+<h1>View Book #<?php echo $model->id; ?></h1>
+
+<?php $this->widget('zii.widgets.CDetailView', array(
+	'data'=>$model,
+	'attributes'=>array(
+		'id',
+		'name',
+		'date_insert',
+		'date_update',
+        array(
+            'name'=>'Readers Name',
+            'value'=>$model->readers->name
+        ),
+        array(
+            'label' => 'Authors',
+            'type'=>'raw',
+            'value' => $this->widget('zii.widgets.grid.CGridView', array(
+                    'dataProvider' => new CActiveDataProvider('Author', array(
+                            'data' => $model->Authors,
+                        )),
+                        'columns'=>array("id", "name")
+                ), true),
+        ),
+	),
+)); ?>
